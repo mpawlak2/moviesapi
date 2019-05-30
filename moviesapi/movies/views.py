@@ -1,6 +1,11 @@
 from django.shortcuts import render
-from django.http import Http404, HttpResponse
+from rest_framework.generics import ListAPIView
+
+from movies.serializers import MovieSerializer
 
 
-def placeholder(request):
-    return HttpResponse()
+class ListMoviesAPI(ListAPIView):
+    serializer_class = MovieSerializer
+
+    def get_queryset(self):
+        return []

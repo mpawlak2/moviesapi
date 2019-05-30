@@ -6,3 +6,4 @@ class TestMovieModel(TestCase):
     def test_get_movies_endpoint(self):
         resp = self.client.get(reverse("movies:movies"))
         self.assertEqual(resp.status_code, 200)
+        self.assertIsNotNone(resp.json())

@@ -1,10 +1,10 @@
 from django.urls import path
 
-from movies.views import placeholder
+from movies.views import ListMoviesAPI
 
 
 app_name = "movies"
 
 urlpatterns = [
-    path("movies/", placeholder, name="movies"),
+    path("movies/", ListMoviesAPI.as_view(), name="movies"),
 ]
