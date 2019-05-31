@@ -11,4 +11,5 @@ class MovieSerializer(serializers.ModelSerializer):
             "year",
             "rated",
             "released",
+            "runtime",
         )

@@ -17,6 +17,13 @@ def get_omdbapi_movie_by_title(title: str, raise_exception=True):
         raise ValidationError({"error": "Could not establish connection to the external API."})
     elif "Error" in r.json():
         raise ValidationError({"error": r.json()["Error"]})
+
     data = {key.lower(): value for key, value in r.json().items()}
+
+    # Assuming the OMDB returns the released key value in format "20 Jan 2008"
     data["released"] = str(datetime.datetime.strptime(data["released"], r"%d %b %Y").date())
+
+    # Assuming the OMDB returns the runtime key value in "xx min" format where xx is an integer.
+    data["runtime"] = data["runtime"][:-4]
+
     return data

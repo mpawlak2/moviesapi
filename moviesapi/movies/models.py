@@ -6,6 +6,7 @@ class Movie(models.Model):
     year = models.CharField(max_length=100, blank=True)
     rated = models.CharField(max_length=10, blank=True)
     released = models.DateField(blank=True)
+    runtime = models.PositiveIntegerField()
 
     def __str__(self):
         return " ".join([self.title, self.year])
