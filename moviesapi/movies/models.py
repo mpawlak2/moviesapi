@@ -13,6 +13,7 @@ class Movie(models.Model):
     actors = models.CharField(max_length=1000, blank=True)
     plot = models.CharField(max_length=1000, blank=True)
     language = models.CharField(max_length=300, blank=True)
+    country = models.CharField(max_length=50, blank=True)
 
     def __str__(self):
         return " ".join([self.title, self.year])

@@ -19,4 +19,5 @@ class MovieSerializer(serializers.ModelSerializer):
             "actors",
             "plot",
             "language",
+            "country",
         )
