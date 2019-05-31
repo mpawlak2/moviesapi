@@ -1,10 +1,11 @@
 from django.urls import path
 
-from movies.views import ListMoviesAPI
+from movies.views import MoviesAPI, CommentsAPI
 
 
 app_name = "movies"
 
 urlpatterns = [
-    path("movies/", ListMoviesAPI.as_view(), name="movies"),
+    path("movies/", MoviesAPI.as_view(), name="movies"),
+    path("comments/", CommentsAPI.as_view(), name="comments"),
 ]

@@ -49,3 +49,7 @@ class MovieSerializer(serializers.ModelSerializer):
         for rating_data in ratings:
             Rating.objects.create(movie=movie, **rating_data)
         return movie
+
+
+class CommentSerializer(serializers.Serializer):
+    pass

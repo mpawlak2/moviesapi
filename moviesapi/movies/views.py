@@ -5,12 +5,12 @@ from rest_framework.generics import ListCreateAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.response import Response
 
-from movies.serializers import MovieSerializer
+from movies.serializers import MovieSerializer, CommentSerializer
 from movies.services import get_omdbapi_movie_by_title
 from movies.queries import filter_movie_by_title, filter_all_movies
 
 
-class ListMoviesAPI(RetrieveModelMixin, ListCreateAPIView):
+class MoviesAPI(RetrieveModelMixin, ListCreateAPIView):
     """List-Create-Retrieve API View."""
 
     serializer_class = MovieSerializer
@@ -45,3 +45,10 @@ class ListMoviesAPI(RetrieveModelMixin, ListCreateAPIView):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class CommentsAPI(ListCreateAPIView):
+    serializer_class = CommentSerializer
+
+    def get_queryset(self):
+        return []

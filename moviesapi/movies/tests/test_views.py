@@ -3,7 +3,7 @@ from django.shortcuts import reverse
 from movies.tests.base import MovieTestCase
 
 
-class TestMovieModel(MovieTestCase):
+class TestMoviesEndpoints(MovieTestCase):
     def test_get_movies_endpoint(self):
         resp = self.client.get(reverse("movies:movies"))
         self.assertEqual(resp.status_code, 200)
@@ -77,3 +77,9 @@ class TestMovieModel(MovieTestCase):
         resp = self.client.post(reverse("movies:movies"), data=data)
         self.assertEqual(resp.status_code, 400)
         self.assertIn("error", resp.json())
+
+
+class TestCommentsEndpoints(MovieTestCase):
+    def test_should_get_all_comments(self):
+        resp = self.client.get(reverse("movies:comments"))
+        self.assertEqual(resp.status_code, 200)
