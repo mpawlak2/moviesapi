@@ -94,7 +94,7 @@ class TestCommentsEndpoints(MovieTestCase):
         self.assertIn("movie", resp.json())
         self.assertEqual(len(resp.json()), 2)
 
-        # movie_id is required
+        # movie is required
         data = {
             "body": "This is a comment",
         }
@@ -102,3 +102,15 @@ class TestCommentsEndpoints(MovieTestCase):
         self.assertEqual(resp.status_code, 400)
         self.assertIn("movie", resp.json())
         self.assertEqual(len(resp.json()), 1)
+
+        # body and movie -> create a comment
+        m = self.create_movie()
+        data = {
+            "body": "Testing",
+            "movie": m.id,
+        }
+        resp = self.client.post(reverse("movies:comments"), data=data)
+        self.assertEqual(resp.status_code, 201)
+        self.assertIn("body", resp.json())
+        self.assertIn("movie", resp.json())
+        self.assertIn("id", resp.json())
