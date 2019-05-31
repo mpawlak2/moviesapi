@@ -23,11 +23,18 @@ class TestMovieModel(TestCase):
         self.assertEqual(resp.status_code, 201, resp.json())
 
         # Attributes that should be returned in the endpoint's json.
-        fields = ("title", "year", "rated", "released", "runtime", "genre")
+        fields = ("id", "title", "year", "rated", "released", "runtime", "genre")
+        resp_data = resp.json()
         for f in fields:
-            self.assertIn(f, resp.json())
-            self.assertNotEqual("", resp.json()[f])
-        self.assertEqual(data["title"], resp.json().get("title"))
+            self.assertIn(f, resp_data)
+            self.assertNotEqual("", resp_data[f])
+        self.assertEqual(data["title"], resp_data.get("title"))
+        last_id = resp_data["id"]
+
+        # Second query to the POST /movies should return record from the db without
+        # contacting the remote API.
+        resp = self.client.post(reverse("movies:movies"), data=data)
+        self.assertEqual(last_id, resp.json()["id"])
 
         # When passed random string, a movie title that does not exists
         data = {
