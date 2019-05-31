@@ -9,6 +9,7 @@ class Movie(models.Model):
     runtime = models.PositiveIntegerField(blank=True)
     genre = models.CharField(max_length=500, blank=True)
     director = models.CharField(max_length=100, blank=True)
+    writer = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return " ".join([self.title, self.year])
