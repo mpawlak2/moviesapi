@@ -38,6 +38,7 @@ class MovieSerializer(serializers.ModelSerializer):
             "imdbrating",
             "imdbvotes",
             "imdbid",
+            "type",
         )
 
     def create(self, validated_data):

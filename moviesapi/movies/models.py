@@ -20,6 +20,7 @@ class Movie(models.Model):
     imdbrating = models.FloatField(blank=True)
     imdbvotes = models.IntegerField(blank=True)
     imdbid = models.CharField(max_length=30, blank=True)
+    type = models.CharField(max_length=30, blank=True)
 
     def __str__(self):
         return " ".join([self.title, self.year])
