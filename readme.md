@@ -38,7 +38,7 @@ In that case, just type this into your terminal:
 
 ```docker run -e POSTGRES_PASSWORD=<password> -p 5432:5432 postgres```
 
-REMEMBER to replace `<password>` with your own password.
+REMEMBER to replace `<password>` with your own password. If you run `postgreSQL` using docker exactly like above, your username and database name both would be `postgres`.
 
 ### **I don't have Docker installed on my machine**
 
