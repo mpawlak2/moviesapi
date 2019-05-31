@@ -18,10 +18,14 @@ class ListMoviesAPI(RetrieveModelMixin, ListCreateAPIView):
     def get_queryset(self):
         return []
 
+    def get_object(self):
+        return filter_movie_by_title(self.request.data.get("title"))[0]
+
     def post(self, request, *args, **kwargs):
         title = request.data.get("title")
         if title:
-            obj = filter_movie_by_title(title)
+            if len(filter_movie_by_title(title)) == 1:
+                return self.retrieve(request, *args, **kwargs)
 
         return self.create(request, *args, **kwargs)
 

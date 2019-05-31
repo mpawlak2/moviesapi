@@ -36,7 +36,6 @@ class TestMovieModel(TestCase):
             self.assertIn(f, resp_data)
             self.assertNotEqual("", resp_data[f])
         self.assertEqual(data["title"], resp_data.get("title"))
-        last_id = resp_data["id"]
 
     def test_should_fetch_from_db_after_created(self):
         """After the initial POST /movies/ with the specific title, every following request should
@@ -47,6 +46,7 @@ class TestMovieModel(TestCase):
         }
         resp = self.client.post(reverse("movies:movies"), data=data)
         self.assertEqual(resp.status_code, 201, resp.json())
+        last_id = resp.json()["id"]
 
         resp = self.client.post(reverse("movies:movies"), data=data)
         self.assertEqual(resp.status_code, 200)
