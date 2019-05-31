@@ -7,7 +7,7 @@ from rest_framework.response import Response
 
 from movies.forms import TopArgsForm
 from movies.queries import (filter_all_comments, filter_all_movies,
-                            filter_movie_by_title)
+                            filter_movie_by_title, filter_top_movies)
 from movies.serializers import (CommentSerializer, MovieSerializer,
                                 TopMoviesSerializer)
 from movies.services import get_omdbapi_movie_by_title
@@ -62,7 +62,10 @@ class TopAPI(ListAPIView):
     serializer_class = TopMoviesSerializer
 
     def get_queryset(self):
-        return []
+        return filter_top_movies(
+            self.request.query_params.get("date_from"),
+            self.request.query_params.get("date_to"),
+        )
 
     def get(self, request, *args, **kwargs):
         form = TopArgsForm(request.query_params)

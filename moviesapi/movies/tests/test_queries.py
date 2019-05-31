@@ -51,7 +51,7 @@ class TestQueries(MovieTestCase):
     def test_top_movies_statistics(self):
         """Query that returns all movies from the database with some annotated fields.
 
-        Every movie should have `total_comments` field
+        Every movie should have `total_comments` field and `rank` field.
         """
         r = filter_top_movies(timezone.now().date(), timezone.now().date())
         self.assertEqual(len(r), 0)
