@@ -23,3 +23,11 @@ class TestMovieModel(TestCase):
         self.assertEqual(resp.status_code, 201)
         self.assertIn("title", resp.json())
         self.assertEqual(data["title"], resp.json().get("title"))
+
+        # When passed random string, a movie title that does not exists
+        data = {
+            "title": "Randomsfewfohqwefnwefop",
+        }
+        resp = self.client.post(reverse("movies:movies"), data=data)
+        self.assertEqual(resp.status_code, 400)
+        self.assertIn("error", resp.json())
