@@ -1,3 +1,8 @@
+import datetime
+
+from django.db.models import Count
+from django.db.models.functions import Rank
+
 from movies.models import Movie, Comment
 
 
@@ -20,3 +25,14 @@ def filter_all_comments(movie_id: int = None):
     if movie_id:
         return Comment.objects.filter(movie_id=movie_id)
     return Comment.objects.all()
+
+
+def filter_top_movies(date_from: datetime.date, date_to: datetime.date):
+    """Return all movies with total_comments and rank fields.
+
+    total_comments is a total number of comments that were added between specified date range
+    """
+    qs = Movie.objects.annotate(
+        total_comments=Count("comments"),
+    )
+    return qs

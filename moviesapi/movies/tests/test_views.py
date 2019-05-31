@@ -193,3 +193,15 @@ class TestTopEndpoint(MovieTestCase):
         }
         resp = self.client.get(reverse("movies:top"), data=data)
         self.assertEqual(resp.status_code, 400)
+
+        # Correct dates, should return the statistics.
+        m = self.create_movie()
+        c = self.create_comment(m.id, "Testing")
+
+        data = {
+            "date_from": str(datetime.date.today()),
+            "date_to": str(datetime.date.today()),
+        }
+        resp = self.client.get(reverse("movies:top"), data=data)
+        self.assertEqual(resp.status_code, 200)
+        self.assertGreater(len(resp.json()), 0)

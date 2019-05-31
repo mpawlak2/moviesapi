@@ -1,5 +1,7 @@
+import datetime
+
 from movies.queries import (filter_all_comments, filter_all_movies,
-                            filter_movie_by_title)
+                            filter_movie_by_title, filter_top_movies)
 from movies.tests.base import MovieTestCase
 
 
@@ -43,3 +45,19 @@ class TestQueries(MovieTestCase):
         r = filter_all_comments()
         self.assertEqual(len(r), 1)
         self.assertIn(c, r)
+
+    def test_top_movies_statistics(self):
+        """Query that returns all movies from the database with some annotated fields.
+
+        Every movie should have `total_comments` field
+        """
+        r = filter_top_movies(datetime.date.today(), datetime.date.today())
+        self.assertEqual(len(r), 0)
+
+        # There should be only one movie with 0 total_comments and 1 as rank
+        m = self.create_movie()
+        r = filter_top_movies(datetime.date.today(), datetime.date.today())
+        self.assertEqual(len(r), 1)
+
+        movie = r[0]
+        self.assertEqual(movie.total_comments, 0)
