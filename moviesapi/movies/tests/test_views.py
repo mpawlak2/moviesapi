@@ -114,8 +114,18 @@ class TestCommentsEndpoints(MovieTestCase):
         self.assertEqual(resp.status_code, 200)
         m_len = len(resp.json())
         self.assertLess(m_len, all_len)
+        for rcomment in resp.json():
+            self.assertEqual(rcomment["movie"], m.id)
 
-
+        filter_kwargs = {
+            "movie": m2.id,
+        }
+        resp = self.client.get(reverse("movies:comments"), filter_kwargs)
+        self.assertEqual(resp.status_code, 200)
+        m_len = len(resp.json())
+        self.assertLess(m_len, all_len)
+        for rcomment in resp.json():
+            self.assertEqual(rcomment["movie"], m2.id)
 
     def test_should_create_comment(self):
         """Test that POST /comments with data consisting of movie id and body text creates a Comment in the database."""
