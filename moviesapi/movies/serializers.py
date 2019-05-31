@@ -34,6 +34,7 @@ class MovieSerializer(serializers.ModelSerializer):
             "awards",
             "poster",
             "ratings",
+            "metascore",
         )
 
     def create(self, validated_data):
