@@ -18,4 +18,5 @@ class MovieSerializer(serializers.ModelSerializer):
             "writer",
             "actors",
             "plot",
+            "language",
         )
