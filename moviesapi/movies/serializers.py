@@ -59,3 +59,7 @@ class CommentSerializer(serializers.ModelSerializer):
             "body",
             "movie",
         )
+
+
+class TopMoviesSerializer(serializers.Serializer):
+    pass

@@ -157,3 +157,19 @@ class TestCommentsEndpoints(MovieTestCase):
         self.assertIn("body", resp.json())
         self.assertIn("movie", resp.json())
         self.assertIn("id", resp.json())
+
+
+class TestTopEndpoint(MovieTestCase):
+    def test_should_get_top_movies_from_db(self):
+        """GET /top should return all movies in the database that:
+
+            - should annotate each entry with the number of comments
+            - should require date rage as an input (e.g., date_from=...&date_to=...)
+            - should count only those comments that were added between date range
+            - every entry should have a rank based on the number of comments
+            - entries with the same number of comments should have the same rank
+        """
+        resp = self.client.get(reverse("movies:top"))
+        self.assertEqual(resp.status_code, 400)
+        self.assertIn("date_from", resp.json())
+        self.assertIn("date_to", resp.json())

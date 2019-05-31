@@ -1,13 +1,14 @@
 import requests
 from django.shortcuts import render
 from rest_framework import status
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListAPIView, ListCreateAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.response import Response
 
 from movies.queries import (filter_all_comments, filter_all_movies,
                             filter_movie_by_title)
-from movies.serializers import CommentSerializer, MovieSerializer
+from movies.serializers import (CommentSerializer, MovieSerializer,
+                                TopMoviesSerializer)
 from movies.services import get_omdbapi_movie_by_title
 
 
@@ -54,3 +55,10 @@ class CommentsAPI(ListCreateAPIView):
     def get_queryset(self):
         movie_id = self.request.query_params.get("movie", None)
         return filter_all_comments(movie_id=movie_id)
+
+
+class TopAPI(ListAPIView):
+    serializer_class = TopMoviesSerializer
+
+    def get_queryset(self):
+        return []
