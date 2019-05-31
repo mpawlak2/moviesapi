@@ -1,7 +1,7 @@
 import datetime
 
 from django.db.models import Count, Window, F
-from django.db.models.functions import Rank
+from django.db.models.functions import DenseRank
 
 from movies.models import Movie, Comment
 
@@ -36,10 +36,10 @@ def filter_top_movies(date_from: datetime.date, date_to: datetime.date):
     """
     qs = Movie.objects.annotate(
         total_comments=Count("comments"),
+    ).annotate(
         rank=Window(
-            expression=Rank(),
-            partition_by=F("total_comments"),
-            order_by=F("total_comments").asc(),
+            expression=DenseRank(),
+            order_by=F("total_comments").desc(),
         )
     )
     return qs

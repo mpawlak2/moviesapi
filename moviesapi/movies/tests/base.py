@@ -10,7 +10,7 @@ from movies.models import Movie, Comment
 class MovieTestCase(TestCase):
     def create_movie(self):
         return Movie.objects.create(
-            title=str(random.sample(string.printable, 10)),
+            title="".join(random.sample(string.printable, 10)),
             released=datetime.date.today(),
             runtime=90,
             imdbrating=9,

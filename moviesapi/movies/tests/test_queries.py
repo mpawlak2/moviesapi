@@ -65,9 +65,25 @@ class TestQueries(MovieTestCase):
 
         # Add another movie without any comment.
         m = self.create_movie()
-        r = filter_top_movies(datetime.date.today(), datetime.date.today())
+        r = filter_top_movies(datetime.date.today(), datetime.date.today()).order_by("-id")
         self.assertEqual(len(r), 2)
 
         movie = r[0]
+        self.assertEqual(movie.id, m.id)
         self.assertEqual(movie.total_comments, 0)
         self.assertEqual(movie.rank, 1)
+
+        # Add a movie with one comment.
+        m = self.create_movie()
+        c = self.create_comment(m.id, "Test")
+        r = filter_top_movies(datetime.date.today(), datetime.date.today()).order_by("-id")
+        self.assertEqual(len(r), 3)
+
+        movie = r[0]
+        self.assertEqual(movie.id, m.id)
+        self.assertEqual(movie.total_comments, 1)
+        self.assertEqual(movie.rank, 1)
+        # And those without any comments should have rank equal to 2.
+        for movie in r:
+            if movie.id != m.id:
+                self.assertEqual(movie.rank, 2)
