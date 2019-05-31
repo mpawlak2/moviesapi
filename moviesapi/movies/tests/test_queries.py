@@ -1,4 +1,5 @@
-from movies.queries import filter_all_movies, filter_movie_by_title
+from movies.queries import (filter_all_comments, filter_all_movies,
+                            filter_movie_by_title)
 from movies.tests.base import MovieTestCase
 
 
@@ -30,3 +31,15 @@ class TestQueries(MovieTestCase):
         self.create_movie()
         r = filter_all_movies()
         self.assertEqual(len(r), 1)
+
+    def test_filter_all_comments(self):
+        """Test the filter_all_comments query."""
+        r = filter_all_comments()
+        self.assertEqual(len(r), 0)
+
+        m = self.create_movie()
+        c = self.create_comment(m.id, "Testing")
+
+        r = filter_all_comments()
+        self.assertEqual(len(r), 1)
+        self.assertIn(c, r)
