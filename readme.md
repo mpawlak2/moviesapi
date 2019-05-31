@@ -3,16 +3,16 @@
 
 # Installation instructions
 
-The installation process is straighforward and requires three things on your machine.
+The installation process is straighforward and it requires that you have three things on your machine.
 
-1. Python 3+ language, see https://www.python.org/downloads/ for details
+1. Python 3+ language, see https://www.python.org/downloads/ for details.
 2. Pip module manager - to manage Python dependencies. You should have had that already installed, if you don't, see https://pip.pypa.io/en/stable/installing/ for details on that.
 3. A way to run or connect to a `postgreSQL` database. One of the ways is to run a `postgreSQL` image using docker. See https://www.docker.com/get-started for installation instructions.
 
 
 ## Getting code and installing dependencies
 
-Clone this repository to your machine by typing `git clone ...` into your terminal.
+Clone this repository to your machine by typing `git clone https://github.com/mpawlak2/moviesapi` into your terminal.
 
 After you have successfuly downloaded the repository files, you can either setup a `virtualenv` to isolate project-specific Python dependencies (of course you can use another tool of your choosing, e.g., pyvenv, pyenv, etc.) or just install those system-wide, which is less ideal. Set working directory in the terminal to the location of this repository on your machine and after activating virtualenv, type:
 
@@ -20,17 +20,17 @@ After you have successfuly downloaded the repository files, you can either setup
 
 ## Required Python modules (and their purposes)
 
-1. django - as a main framework
-2. django-rest-framework - to handle API endpoints and serialize objects
-3. python-dotenv - to load `.env` settings for the app
-4. requests - to communicate with external API
-5. psycopg2 - to handle `postgreSQL` database
+1. `django` - as a main Web framework in this project
+2. `django-rest-framework` - to handle API endpoints and serialize objects
+3. `python-dotenv` - to load `.env` settings for the app
+4. `requests` - to communicate with external API
+5. `psycopg2` - to handle `postgreSQL` database
 
 ## Setting up database
 
 > Why postgreSQL in the first place?
 > 
-> There are some functions used that wouldn't work in SQLite database shipped with Python.
+> There are some Django ORM's functions used in this application that wouldn't work in SQLite database supplied with Python.
 
 ### **I have Docker installed on my machine**
 
@@ -52,7 +52,7 @@ You will need to get your own API key from http://www.omdbapi.com/, it is really
 
 ### **Create .env file**
 
-Before you can run this app, you will need to create `.env` file in `/moviesapi/moviesapi` directory, the same location as `wsgi.py`. There is already `.env.example` file, which you can copy and rename to `.env`. Fill every option according to these hints.
+Before you can run this app, you will need to create `.env` file in `/moviesapi/moviesapi` directory, the same location as the `wsgi.py` file location. There is already `.env.example` file, which you can copy and rename to `.env`. Fill every option according to these hints.
 
 setting      |     meaning
 -------------|------------------------------
@@ -66,12 +66,12 @@ DB_PORT      | Database port, `5432` by default
 
 # Running the project
 
-After succesfull installation you are ready to run the project, all you have to do is to activate the virtualenv (if you are using one) from the directory of `moviesapi/` run `python manage.py runserver`. This will, obviously, run a development server. For more production ready solution look into https://gunicorn.org/.
+After succesfull installation you are ready to run the project, all you have to do is to activate the virtualenv (if you are using one) and then from the `moviesapi/` directory run `python manage.py runserver`. This will obviously run a development server. For more production ready solutions look into https://gunicorn.org/.
 
 
 # Running tests
 
-Test are run from the same directory as the app itself, from `moviesapi/` type `python manage.py test` to runn all tests.
+Test are run from the same directory as the app itself, from `moviesapi/` directory type `python manage.py test` to run all tests.
 
 
 # Endpoints
@@ -82,7 +82,7 @@ POST   | /movies  | `title` - title of the movie you want to fetch| Fetch movie 
 GET    | /movies  | `ord` (optional) - on which column and in which way to sort, e.g., "`-year`" to sort on colum `year` in a descending way <br> `title` (optional) - filter movies that contain this value in its `title` field <br> `year` (optional) - filter movies that contain this value in its `year` field<br> `rated` (optional) - filter movies that contain this value in its `rated` field<br> `released` (optional) - filter movies that contain this value in its `released` field<br> `runtime` (optional) - filter movies that contain this value in its `runtime` field<br> `genre` (optional) - filter movies that contain this value in its `genre` field<br> `director` (optional) - filter movies that contain this value in its `director` field<br> `writer` (optional) - filter movies that contain this value in its `writer` field<br> `actors` (optional) - filter movies that contain this value in its `actors` field<br> `plot` (optional) - filter movies that contain this value in its `plot` field<br> `language` (optional) - filter movies that contain this value in its `language` field<br> `country` (optional) - filter movies that contain this value in its `country` field<br> `awards` (optional) - filter movies that contain this value in its `awards` field<br> `poster` (optional) - filter movies that contain this value in its `poster` field<br> `metascore` (optional) - filter movies that contain this value in its `metascore` field| Return a list of all, or filtered, movies already in the database.
 POST | /comments | `movie` - movie id to add comment to<br>`body` - the body of a comment | Add comments to movies.
 GET | /comments | `movie` (optional) - filter comments by its movie id | Return list of all, or filtered, comments in the database
-GET | /top | `date_from` - start date for this statistics<br>`date_to` - end date for this statistics | Return top movies with comment count and its ranking. This will include only comments that were created between `date_from` and `date_to` dates. A `rank` field in the response json is based on a `total_comments` field. Entries with the same number of `total_comments` have the same `rank`.
+GET | /top | `date_from` - the start date for this statistics<br>`date_to` - the end date for this statistics | Return top movies with comment count and its ranking. This will include only comments that were created between `date_from` and `date_to` dates. A `rank` field in the response json is based on a `total_comments` field. Entries with the same number of `total_comments` have the same `rank`.
 
 
 # Thank you for you attention!
