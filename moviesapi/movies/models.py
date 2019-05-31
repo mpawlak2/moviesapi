@@ -6,7 +6,7 @@ class Movie(models.Model):
     year = models.CharField(max_length=100, blank=True)
     rated = models.CharField(max_length=10, blank=True)
     released = models.DateField(blank=True)
-    runtime = models.PositiveIntegerField(blank=True)
+    runtime = models.PositiveIntegerField(blank=True, null=True)
     genre = models.CharField(max_length=500, blank=True)
     director = models.CharField(max_length=100, blank=True)
     writer = models.CharField(max_length=100, blank=True)

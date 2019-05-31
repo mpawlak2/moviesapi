@@ -1,3 +1,5 @@
+import re
+
 import requests
 from django.shortcuts import render
 from rest_framework import status
@@ -19,7 +21,29 @@ class MoviesAPI(RetrieveModelMixin, ListCreateAPIView):
     serializer_class = MovieSerializer
 
     def get_queryset(self):
-        return filter_all_movies()
+        qs = filter_all_movies()
+        filter_fields = (
+            "title", "year", "rated", "released",
+            "runtime", "genre", "director", "writer",
+            "actors", "plot", "language", "country",
+            "awards", "poster", "metascore",
+        )
+        filter_kwargs = {f"{k}__icontains": v for k, v in self.request.query_params.items() if k in filter_fields and bool(v)}
+
+        ord_by = self.request.query_params.get("ord")
+        if ord_by:
+            """Verify that the column user want to order by is in filter_fields."""
+            match = re.match(r"-?([a-z]+)", ord_by)
+            if not match:
+                ord_by = None
+            else:
+                if match.group(1) not in filter_fields:
+                    ord_by = None
+
+        qs = qs.filter(**filter_kwargs)
+        if ord_by:
+            qs = qs.order_by(ord_by)
+        return qs
 
     def get_object(self):
         return filter_movie_by_title(self.request.data.get("title"))[0]

@@ -24,7 +24,7 @@ def get_omdbapi_movie_by_title(title: str, raise_exception=True):
     data["released"] = str(datetime.datetime.strptime(data["released"], r"%d %b %Y").date())
 
     # Assuming the OMDB returns the runtime key value in "xx min" format where xx is an integer.
-    data["runtime"] = data["runtime"][:-4]
+    data["runtime"] = data["runtime"][:-4] if data["runtime"].endswith("min") else None
     data["ratings"] = [{key.lower(): value for key, value in r.items()} for r in data["ratings"]]
     data["imdbvotes"] = data["imdbvotes"].replace(",", "")
 
