@@ -19,3 +19,9 @@ class Movie(models.Model):
 
     def __str__(self):
         return " ".join([self.title, self.year])
+
+
+class Rating(models.Model):
+    movie = models.ForeignKey(Movie, models.CASCADE, related_name="ratings")
+    source = models.CharField(max_length=200)
+    value = models.CharField(max_length=100)

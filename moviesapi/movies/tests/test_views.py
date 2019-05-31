@@ -41,6 +41,11 @@ class TestMovieModel(TestCase):
         for f in fields:
             self.assertIn(f, resp_data)
             self.assertNotEqual("", resp_data[f])
+            if f == "ratings":
+                self.assertGreater(len(resp_data[f]), 0)
+                for r in resp_data[f]:
+                    self.assertIn("source", r)
+                    self.assertIn("value", r)
         self.assertEqual(data["title"], resp_data.get("title"))
 
     def test_should_fetch_from_db_after_created(self):

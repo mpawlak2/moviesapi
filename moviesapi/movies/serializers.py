@@ -1,9 +1,20 @@
 from rest_framework import serializers
 
-from movies.models import Movie
+from movies.models import Movie, Rating
+
+
+class RatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = (
+            "source",
+            "value",
+        )
 
 
 class MovieSerializer(serializers.ModelSerializer):
+    ratings = RatingSerializer(many=True, required=False)
+
     class Meta:
         model = Movie
         fields = (
@@ -22,4 +33,13 @@ class MovieSerializer(serializers.ModelSerializer):
             "country",
             "awards",
             "poster",
+            "ratings",
         )
+
+    def create(self, validated_data):
+        ratings = validated_data.pop("ratings")
+        movie = Movie.objects.create(**validated_data)
+
+        for rating_data in ratings:
+            Rating.objects.create(movie=movie, **rating_data)
+        return movie
