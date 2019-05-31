@@ -8,4 +8,5 @@ class MovieSerializer(serializers.ModelSerializer):
         model = Movie
         fields = (
             "title",
+            "year",
         )

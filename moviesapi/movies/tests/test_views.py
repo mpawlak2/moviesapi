@@ -20,8 +20,13 @@ class TestMovieModel(TestCase):
             "title": "Breaking Bad",
         }
         resp = self.client.post(reverse("movies:movies"), data=data)
-        self.assertEqual(resp.status_code, 201)
-        self.assertIn("title", resp.json())
+        self.assertEqual(resp.status_code, 201, resp.json())
+
+        # Attributes that should be returned in the endpoint's json.
+        fields = ("title", "year", "rated", "released", "runtime", "genre")
+        for f in fields:
+            self.assertIn(f, resp.json())
+            self.assertNotEqual("", resp.json()[f])
         self.assertEqual(data["title"], resp.json().get("title"))
 
         # When passed random string, a movie title that does not exists
