@@ -67,6 +67,8 @@ DEBUG      | Set to `0` is the app is run in the production environment and `1` 
 
 # Running the project
 
+Befor you run this app make sure to deploy all migrations by typing `python manage.py migrate` it will also make sure that the database connection is working as it should.
+
 After succesfull installation you are ready to run the project, all you have to do is to activate the virtualenv (if you are using one) and then from the `moviesapi/` directory run `python manage.py runserver`. This will obviously run a development server. For more production ready solutions look into https://gunicorn.org/.
 
 
