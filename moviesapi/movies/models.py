@@ -21,6 +21,7 @@ class Movie(models.Model):
     imdbvotes = models.IntegerField(blank=True)
     imdbid = models.CharField(max_length=30, blank=True)
     type = models.CharField(max_length=30, blank=True)
+    totalseasons = models.SmallIntegerField(blank=True, null=True)
 
     def __str__(self):
         return " ".join([self.title, self.year])
