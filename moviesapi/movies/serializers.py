@@ -9,4 +9,5 @@ class MovieSerializer(serializers.ModelSerializer):
         fields = (
             "title",
             "year",
+            "rated",
         )
