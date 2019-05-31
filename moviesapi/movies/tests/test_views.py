@@ -15,3 +15,11 @@ class TestMovieModel(TestCase):
         resp = self.client.post(reverse("movies:movies"))
         self.assertEqual(resp.status_code, 400)
         self.assertIn("title", resp.json())
+
+        data = {
+            "title": "Breaking Bad",
+        }
+        resp = self.client.post(reverse("movies:movies"), data=data)
+        self.assertEqual(resp.status_code, 201)
+        self.assertIn("title", resp.json())
+        self.assertEqual(data["title"], resp.json().get("title"))
