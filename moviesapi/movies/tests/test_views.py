@@ -30,7 +30,13 @@ class TestMovieModel(TestCase):
         resp = self.client.post(reverse("movies:movies"), data=data)
         self.assertEqual(resp.status_code, 201, resp.json())
 
-        fields = ("id", "title", "year", "rated", "released", "runtime", "genre")
+        fields = (
+            "id", "title", "year", 
+            "rated", "released", "runtime", "genre", "director",
+            "writer", "actors", "plot", "language", "country", "awards",
+            "poster", "ratings", "metascore", "imdbrating", "imdbvotes",
+            "imdbid", "type", "totalseasons",
+        )
         resp_data = resp.json()
         for f in fields:
             self.assertIn(f, resp_data)

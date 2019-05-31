@@ -14,4 +14,5 @@ class MovieSerializer(serializers.ModelSerializer):
             "released",
             "runtime",
             "genre",
+            "director",
         )
