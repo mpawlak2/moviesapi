@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import reverse
 
 from movies.tests.base import MovieTestCase
@@ -173,3 +175,21 @@ class TestTopEndpoint(MovieTestCase):
         self.assertEqual(resp.status_code, 400)
         self.assertIn("date_from", resp.json())
         self.assertIn("date_to", resp.json())
+
+        # Passed incorrect data
+        data = {
+            "date_from": "not a date",
+            "date_to": 1234,
+        }
+        resp = self.client.get(reverse("movies:top"), data=data)
+        self.assertEqual(resp.status_code, 400)
+        self.assertIn("date_from", resp.json())
+        self.assertIn("date_to", resp.json())
+
+        # Passed date_from that is after the date_to
+        data = {
+            "date_from": str(datetime.date.today() + datetime.timedelta(days=10)),
+            "date_to": str(datetime.date.today()),
+        }
+        resp = self.client.get(reverse("movies:top"), data=data)
+        self.assertEqual(resp.status_code, 400)
