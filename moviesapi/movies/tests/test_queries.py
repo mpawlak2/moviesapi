@@ -1,5 +1,7 @@
 import datetime
 
+from django.utils import timezone
+
 from movies.queries import (filter_all_comments, filter_all_movies,
                             filter_movie_by_title, filter_top_movies)
 from movies.tests.base import MovieTestCase
@@ -51,12 +53,12 @@ class TestQueries(MovieTestCase):
 
         Every movie should have `total_comments` field
         """
-        r = filter_top_movies(datetime.date.today(), datetime.date.today())
+        r = filter_top_movies(timezone.now().date(), timezone.now().date())
         self.assertEqual(len(r), 0)
 
         # There should be only one movie with 0 total_comments and 1 as rank
         m = self.create_movie()
-        r = filter_top_movies(datetime.date.today(), datetime.date.today())
+        r = filter_top_movies(timezone.now().date(), timezone.now().date())
         self.assertEqual(len(r), 1)
 
         movie = r[0]
@@ -65,7 +67,7 @@ class TestQueries(MovieTestCase):
 
         # Add another movie without any comment.
         m = self.create_movie()
-        r = filter_top_movies(datetime.date.today(), datetime.date.today()).order_by("-id")
+        r = filter_top_movies(timezone.now().date(), timezone.now().date()).order_by("-id")
         self.assertEqual(len(r), 2)
 
         movie = r[0]
@@ -76,7 +78,7 @@ class TestQueries(MovieTestCase):
         # Add a movie with one comment.
         m = self.create_movie()
         c = self.create_comment(m.id, "Test")
-        r = filter_top_movies(datetime.date.today(), datetime.date.today()).order_by("-id")
+        r = filter_top_movies(timezone.now().date(), timezone.now().date()).order_by("-id")
         self.assertEqual(len(r), 3)
 
         movie = r[0]
@@ -87,3 +89,18 @@ class TestQueries(MovieTestCase):
         for movie in r:
             if movie.id != m.id:
                 self.assertEqual(movie.rank, 2)
+
+    def test_top_movies_statistics_should_ignore_comments_based_on_date(self):
+        """If the date the comment was addes is not between date range specified in query, those
+        comments should not be considered.
+        """
+        m = self.create_movie()
+        c = self.create_comment(m.id, "Testing")
+        c.created_at = timezone.now() + datetime.timedelta(days=1)
+        c.save()
+
+        # Query for today's statistics
+        r = filter_top_movies(timezone.now().date(), timezone.now().date())
+        self.assertEqual(len(r), 1)
+        movie = r[0]
+        self.assertEqual(movie.total_comments, 0)

@@ -1,6 +1,6 @@
 import datetime
 
-from django.db.models import Count, Window, F
+from django.db.models import Count, Window, F, Q
 from django.db.models.functions import DenseRank
 
 from movies.models import Movie, Comment
@@ -34,9 +34,9 @@ def filter_top_movies(date_from: datetime.date, date_to: datetime.date):
 
     total_comments is a total number of comments that were added between specified date range
     """
+    comments_within_date_range = Q(comments__created_at__date__lte=date_from) & Q(comments__created_at__date__gte=date_to)
     qs = Movie.objects.annotate(
-        total_comments=Count("comments"),
-    ).annotate(
+        total_comments=Count("comments", filter=comments_within_date_range),
         rank=Window(
             expression=DenseRank(),
             order_by=F("total_comments").desc(),
