@@ -62,6 +62,7 @@ DB_HOST      | Database host
 DB_USER      | Database user name
 DB_NAME      | Database name
 DB_PORT      | Database port, `5432` by default
+DEBUG      | Set to `0` is the app is run in the production environment and `1` if it is not.
 
 
 # Running the project
