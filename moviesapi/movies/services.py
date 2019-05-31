@@ -26,5 +26,6 @@ def get_omdbapi_movie_by_title(title: str, raise_exception=True):
     # Assuming the OMDB returns the runtime key value in "xx min" format where xx is an integer.
     data["runtime"] = data["runtime"][:-4]
     data["ratings"] = [{key.lower(): value for key, value in r.items()} for r in data["ratings"]]
+    data["imdbvotes"] = data["imdbvotes"].replace(",", "")
 
     return data

@@ -21,6 +21,7 @@ class TestQueries(TestCase):
             released=datetime.date.today(),
             runtime=90,
             imdbrating=9,
+            imdbvotes=10,
         )
         r = filter_movie_by_title("Breaking bad")
         self.assertEqual(len(r), 1)

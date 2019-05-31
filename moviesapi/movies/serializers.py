@@ -36,6 +36,7 @@ class MovieSerializer(serializers.ModelSerializer):
             "ratings",
             "metascore",
             "imdbrating",
+            "imdbvotes",
         )
 
     def create(self, validated_data):

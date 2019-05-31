@@ -18,6 +18,7 @@ class Movie(models.Model):
     poster = models.CharField(max_length=1000, blank=True)
     metascore = models.CharField(max_length=100, blank=True)
     imdbrating = models.FloatField(blank=True)
+    imdbvotes = models.IntegerField(blank=True)
 
     def __str__(self):
         return " ".join([self.title, self.year])
