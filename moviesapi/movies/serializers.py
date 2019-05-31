@@ -20,4 +20,5 @@ class MovieSerializer(serializers.ModelSerializer):
             "plot",
             "language",
             "country",
+            "awards",
         )
