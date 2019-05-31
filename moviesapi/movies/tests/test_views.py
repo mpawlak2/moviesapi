@@ -22,7 +22,14 @@ class TestMovieModel(TestCase):
         resp = self.client.post(reverse("movies:movies"), data=data)
         self.assertEqual(resp.status_code, 201, resp.json())
 
-        # Attributes that should be returned in the endpoint's json.
+    def test_all_the_attributes_are_returned(self):
+        """ Test attributes that should be returned in the endpoint's json."""
+        data = {
+            "title": "Breaking Bad",
+        }
+        resp = self.client.post(reverse("movies:movies"), data=data)
+        self.assertEqual(resp.status_code, 201, resp.json())
+
         fields = ("id", "title", "year", "rated", "released", "runtime", "genre")
         resp_data = resp.json()
         for f in fields:
@@ -31,9 +38,18 @@ class TestMovieModel(TestCase):
         self.assertEqual(data["title"], resp_data.get("title"))
         last_id = resp_data["id"]
 
-        # Second query to the POST /movies should return record from the db without
-        # contacting the remote API.
+    def test_should_fetch_from_db_after_created(self):
+        """After the initial POST /movies/ with the specific title, every following request should
+        get its movie data from the app db.
+        """
+        data = {
+            "title": "Breaking Bad",
+        }
         resp = self.client.post(reverse("movies:movies"), data=data)
+        self.assertEqual(resp.status_code, 201, resp.json())
+
+        resp = self.client.post(reverse("movies:movies"), data=data)
+        self.assertEqual(resp.status_code, 200)
         self.assertEqual(last_id, resp.json()["id"])
 
         # When passed random string, a movie title that does not exists
