@@ -5,6 +5,7 @@ from rest_framework.generics import ListAPIView, ListCreateAPIView
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.response import Response
 
+from movies.forms import TopArgsForm
 from movies.queries import (filter_all_comments, filter_all_movies,
                             filter_movie_by_title)
 from movies.serializers import (CommentSerializer, MovieSerializer,
@@ -62,3 +63,10 @@ class TopAPI(ListAPIView):
 
     def get_queryset(self):
         return []
+
+    def get(self, request, *args, **kwargs):
+        form = TopArgsForm(request.query_params)
+        if form.is_valid():
+            return self.list(request, *args, **kwargs)
+        else:
+            return Response(form.errors, status.HTTP_400_BAD_REQUEST)
