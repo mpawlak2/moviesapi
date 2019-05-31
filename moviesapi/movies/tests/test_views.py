@@ -1,8 +1,9 @@
-from django.test import TestCase
 from django.shortcuts import reverse
 
+from movies.tests.base import MovieTestCase
 
-class TestMovieModel(TestCase):
+
+class TestMovieModel(MovieTestCase):
     def test_get_movies_endpoint(self):
         resp = self.client.get(reverse("movies:movies"))
         self.assertEqual(resp.status_code, 200)

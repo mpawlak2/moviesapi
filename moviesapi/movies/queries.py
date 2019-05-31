@@ -8,4 +8,4 @@ def filter_movie_by_title(title: str):
 
 def filter_all_movies():
     """Return all movies present in the database."""
-    return []
+    return Movie.objects.all()
