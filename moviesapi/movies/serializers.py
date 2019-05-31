@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from movies.models import Movie, Rating
+from movies.models import Movie, Rating, Comment
 
 
 class RatingSerializer(serializers.ModelSerializer):
@@ -51,5 +51,10 @@ class MovieSerializer(serializers.ModelSerializer):
         return movie
 
 
-class CommentSerializer(serializers.Serializer):
-    pass
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = (
+            "id",
+            "body",
+        )

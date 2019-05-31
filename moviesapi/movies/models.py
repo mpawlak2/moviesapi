@@ -31,3 +31,10 @@ class Rating(models.Model):
     movie = models.ForeignKey(Movie, models.CASCADE, related_name="ratings")
     source = models.CharField(max_length=200)
     value = models.CharField(max_length=100)
+
+    def __str__(self):
+        return " ".join(["Rating of", self.movie, "-", self.source, self.value])
+
+
+class Comment(models.Model):
+    body = models.TextField()
