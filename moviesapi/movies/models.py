@@ -38,3 +38,4 @@ class Rating(models.Model):
 
 class Comment(models.Model):
     body = models.TextField()
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name="comments")

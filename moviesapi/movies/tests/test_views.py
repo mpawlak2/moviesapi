@@ -85,9 +85,20 @@ class TestCommentsEndpoints(MovieTestCase):
         self.assertEqual(resp.status_code, 200)
 
     def test_should_create_comment(self):
-        """Test that POST /comments with data consisting of movie id and comment text creates a Comment in the database."""
+        """Test that POST /comments with data consisting of movie id and body text creates a Comment in the database."""
 
-        # comment field is required
+        # body field is required
         resp = self.client.post(reverse("movies:comments"))
         self.assertEqual(resp.status_code, 400)
         self.assertIn("body", resp.json())
+        self.assertIn("movie", resp.json())
+        self.assertEqual(len(resp.json()), 2)
+
+        # movie_id is required
+        data = {
+            "body": "This is a comment",
+        }
+        resp = self.client.post(reverse("movies:comments"), data=data)
+        self.assertEqual(resp.status_code, 400)
+        self.assertIn("movie", resp.json())
+        self.assertEqual(len(resp.json()), 1)

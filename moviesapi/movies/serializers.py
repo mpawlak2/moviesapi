@@ -57,4 +57,5 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "body",
+            "movie",
         )
