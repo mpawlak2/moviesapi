@@ -22,9 +22,7 @@ class ListMoviesAPI(ListCreateAPIView):
 
         if serializer_data["title"]:
             movie_data = get_omdbapi_movie_by_title(serializer_data["title"])
-            serializer_data.update(
-                {key.lower(): value for key, value in movie_data.items()},
-            )
+            serializer_data.update(movie_data)
 
 
         serializer = self.get_serializer(data=serializer_data)

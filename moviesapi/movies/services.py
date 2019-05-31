@@ -1,3 +1,5 @@
+import datetime
+
 import requests
 from moviesapi import settings
 from rest_framework.serializers import ValidationError
@@ -15,5 +17,6 @@ def get_omdbapi_movie_by_title(title: str, raise_exception=True):
         raise ValidationError({"error": "Could not establish connection to the external API."})
     elif "Error" in r.json():
         raise ValidationError({"error": r.json()["Error"]})
-
-    return r.json()
+    data = {key.lower(): value for key, value in r.json().items()}
+    data["released"] = str(datetime.datetime.strptime(data["released"], r"%d %b %Y").date())
+    return data
