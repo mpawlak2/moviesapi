@@ -9,6 +9,11 @@ class TestMovieModel(MovieTestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertIsNotNone(resp.json())
 
+        self.create_movie()
+
+        resp = self.client.get(reverse("movies:movies"))
+        self.assertEqual(len(resp.json()), 1)
+
     def test_should_fetch_movie_from_external_api(self):
         """The POST /movies endpoint should fetch movie data and add it to the database"""
 

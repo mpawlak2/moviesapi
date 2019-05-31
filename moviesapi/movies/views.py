@@ -7,7 +7,7 @@ from rest_framework.response import Response
 
 from movies.serializers import MovieSerializer
 from movies.services import get_omdbapi_movie_by_title
-from movies.queries import filter_movie_by_title
+from movies.queries import filter_movie_by_title, filter_all_movies
 
 
 class ListMoviesAPI(RetrieveModelMixin, ListCreateAPIView):
@@ -16,7 +16,7 @@ class ListMoviesAPI(RetrieveModelMixin, ListCreateAPIView):
     serializer_class = MovieSerializer
 
     def get_queryset(self):
-        return []
+        return filter_all_movies()
 
     def get_object(self):
         return filter_movie_by_title(self.request.data.get("title"))[0]
