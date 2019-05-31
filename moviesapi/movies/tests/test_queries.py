@@ -61,3 +61,13 @@ class TestQueries(MovieTestCase):
 
         movie = r[0]
         self.assertEqual(movie.total_comments, 0)
+        self.assertEqual(movie.rank, 1)
+
+        # Add another movie without any comment.
+        m = self.create_movie()
+        r = filter_top_movies(datetime.date.today(), datetime.date.today())
+        self.assertEqual(len(r), 2)
+
+        movie = r[0]
+        self.assertEqual(movie.total_comments, 0)
+        self.assertEqual(movie.rank, 1)

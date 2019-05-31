@@ -1,6 +1,6 @@
 import datetime
 
-from django.db.models import Count
+from django.db.models import Count, Window, F
 from django.db.models.functions import Rank
 
 from movies.models import Movie, Comment
@@ -8,7 +8,9 @@ from movies.models import Movie, Comment
 
 def filter_movie_by_title(title: str):
     """Return movie with an exact title match."""
-    return Movie.objects.filter(title__iexact=title)
+    if title:
+        return Movie.objects.filter(title__iexact=title)
+    return Movie.objects.all()
 
 
 def filter_all_movies():
@@ -34,5 +36,10 @@ def filter_top_movies(date_from: datetime.date, date_to: datetime.date):
     """
     qs = Movie.objects.annotate(
         total_comments=Count("comments"),
+        rank=Window(
+            expression=Rank(),
+            partition_by=F("total_comments"),
+            order_by=F("total_comments").asc(),
+        )
     )
     return qs
