@@ -11,6 +11,12 @@ def filter_all_movies():
     return Movie.objects.all()
 
 
-def filter_all_comments():
-    """Return all comments present in the database."""
+def filter_all_comments(movie_id: int = None):
+    """Return all comments present in the database, with optional filtering.
+
+    Argumetns:
+        movie_id - show only comments that are added to this movie
+    """
+    if movie_id:
+        return Comment.objects.filter(movie_id=movie_id)
     return Comment.objects.all()

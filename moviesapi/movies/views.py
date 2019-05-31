@@ -52,4 +52,5 @@ class CommentsAPI(ListCreateAPIView):
     serializer_class = CommentSerializer
 
     def get_queryset(self):
-        return filter_all_comments()
+        movie_id = self.request.query_params.get("movie", None)
+        return filter_all_comments(movie_id=movie_id)
