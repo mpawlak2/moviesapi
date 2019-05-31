@@ -16,4 +16,5 @@ class MovieSerializer(serializers.ModelSerializer):
             "genre",
             "director",
             "writer",
+            "actors",
         )

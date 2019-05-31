@@ -10,6 +10,7 @@ class Movie(models.Model):
     genre = models.CharField(max_length=500, blank=True)
     director = models.CharField(max_length=100, blank=True)
     writer = models.CharField(max_length=100, blank=True)
+    actors = models.CharField(max_length=1000, blank=True)
 
     def __str__(self):
         return " ".join([self.title, self.year])
