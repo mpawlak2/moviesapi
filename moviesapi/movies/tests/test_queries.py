@@ -78,7 +78,7 @@ class TestQueries(MovieTestCase):
         # Add a movie with one comment.
         m = self.create_movie()
         c = self.create_comment(m.id, "Test")
-        r = filter_top_movies(timezone.now().date(), timezone.now().date()).order_by("-id")
+        r = filter_top_movies(timezone.now().date()+datetime.timedelta(days=-1), timezone.now().date()).order_by("-id")
         self.assertEqual(len(r), 3)
 
         movie = r[0]
