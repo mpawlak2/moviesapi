@@ -21,4 +21,5 @@ class MovieSerializer(serializers.ModelSerializer):
             "language",
             "country",
             "awards",
+            "poster",
         )

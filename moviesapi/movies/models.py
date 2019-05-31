@@ -15,6 +15,7 @@ class Movie(models.Model):
     language = models.CharField(max_length=300, blank=True)
     country = models.CharField(max_length=50, blank=True)
     awards = models.CharField(max_length=1000, blank=True)
+    poster = models.CharField(max_length=1000, blank=True)
 
     def __str__(self):
         return " ".join([self.title, self.year])
